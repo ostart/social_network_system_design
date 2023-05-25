@@ -1,0 +1,9 @@
+Table post_stats {
+  id bigint [primary key]
+  post_id bigint
+  likes int
+  dislikes int
+  views int
+}
+
+// Ref: post_stats.post_id - postgres.dbml:posts.id // one-to-one

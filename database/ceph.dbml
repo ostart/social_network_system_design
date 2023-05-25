@@ -1,0 +1,14 @@
+Table media {
+  id uuid [primary key]
+  type media_type
+  format nvarchar
+  content byte[]
+}
+
+enum media_type {
+  photo
+  audio
+  video
+}
+
+// Ref: mongo.dbml:profile.photos <> media.id // many-to-many

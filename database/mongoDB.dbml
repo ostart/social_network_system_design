@@ -1,0 +1,16 @@
+// user_id get from Authentification-Authorization external service
+
+Table profile {
+  id bigint [primary key]
+  user_id uuid
+  name nvarchar
+  surname nvarchar
+  description text
+  address nvarchar
+  photos uuid[]
+  interests nvarchar
+  created_at timestamp
+  modified_at timestamp
+}
+
+// Ref: profile.photos <> ceph.dbml:media.id // many-to-many

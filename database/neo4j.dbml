@@ -1,0 +1,18 @@
+// user_id get from Authentification-Authorization external service
+
+Table relationships {
+  source_user_id uuid
+  target_user_id uuid
+  type relationships_type
+  created_at timestamp
+}
+
+enum relationships_type {
+  follow
+  friend
+  relative
+  couple
+}
+
+// Ref: user_id < relationships.source_user_id // one-to-many
+// Ref: user_id < relationships.target_user_id // one-to-many
