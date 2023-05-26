@@ -1,4 +1,6 @@
 // user_id get from Authentification-Authorization external service
+// шардирование не используется, т.к. потеряются преимущества графовой БД
+// репликация master-slave один к одному
 
 Table relationships {
   source_user_id uuid

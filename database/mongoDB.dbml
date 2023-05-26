@@ -1,4 +1,6 @@
 // user_id get from Authentification-Authorization external service
+// шардирование по user_id. 1024 virtual buckets
+// репликация master-slave один к одному для каждого шарда
 
 Table profile {
   id bigint [primary key]

@@ -1,3 +1,6 @@
+// шардирование не используется
+// репликация master - slave один к одному
+
 Table post_stats {
   id bigint [primary key]
   post_id bigint

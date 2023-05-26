@@ -1,3 +1,6 @@
+// шардирование по media_type
+// репликация каждого шарда master - slave один к одному
+
 Table media {
   id uuid [primary key]
   type media_type
