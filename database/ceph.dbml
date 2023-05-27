@@ -1,17 +1,13 @@
-// шардирование по media_type
-// репликация каждого шарда master - slave один к одному
+// шардирование по geohash
+// асинхронная репликация каждого шарда один к одному вида master - slave
 
 Table media {
   id uuid [primary key]
   type media_type
-  format nvarchar
+  format varchar
   content byte[]
-}
-
-enum media_type {
-  photo
-  audio
-  video
+  geohash varchar
 }
 
 // Ref: mongo.dbml:profile.photos <> media.id // many-to-many
+// Note: enum media_type { photo, audio, video }

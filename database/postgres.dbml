@@ -1,10 +1,9 @@
-// user_id get from Authentification-Authorization external service
-// шардирование по user_id. 1024 virtual buckets
-// репликация master- 1 slave sync - 2 slaves async для каждого шарда
+// шардирование по user_id
+// репликация каждого шарда вида master - 1 slave sync - 2 slaves async, для быстрого выбора замены master в случае критических проблем
 
 Table posts {
   id bigint [primary key]
-  title nvarchar
+  title varchar
   content text
   user_id uuid
   tags uuid[]
@@ -14,15 +13,9 @@ Table posts {
   modified_at timestamp
 }
 
-enum posts_status {
-  created
-  published
-  hidden
-}
-
 Table tags {
   id uuid
-  value nvarchar
+  value varchar
 }
 
 Table post_comments {
@@ -39,7 +32,7 @@ Table post_comments {
 
 Table chats {
   id uuid [primary key]
-  title nvarchar
+  title varchar
   description text
 }
 
@@ -59,11 +52,6 @@ Table messages {
   delivered_at timestamp
 }
 
-enum channel {
-  user
-  chat
-}
-
 // Ref: posts.user_id > user_id // many-to-one
 // Ref: posts.modifier_id > user_id // many-to-one
 // Ref: redis.dbml:post_stats.post_id - posts.id // one-to-one
@@ -75,3 +63,6 @@ enum channel {
 // Ref: chats.id < messages.chat_id // one-to-many
 // Ref: chats_to_users.chat_id > chats.id // many-to-one
 // Ref: chats_to_users.user_id > user_id // many-to-one
+// Note: enum posts_status { created, published, hidden }
+// Note: enum channel { user, chat }
+// Note: user_id get from Authentification-Authorization external service

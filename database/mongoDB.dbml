@@ -1,18 +1,18 @@
-// user_id get from Authentification-Authorization external service
-// шардирование по user_id. 1024 virtual buckets
-// репликация master-slave один к одному для каждого шарда
+// шардирование по user_id
+// асинхронная репликация каждого шарда один к одному вида master-slave
 
 Table profile {
   id bigint [primary key]
   user_id uuid
-  name nvarchar
-  surname nvarchar
+  name varchar
+  surname varchar
   description text
-  address nvarchar
+  address varchar
   photos uuid[]
-  interests nvarchar
+  interests varchar
   created_at timestamp
   modified_at timestamp
 }
 
 // Ref: profile.photos <> ceph.dbml:media.id // many-to-many
+// Note: user_id get from Authentification-Authorization external service

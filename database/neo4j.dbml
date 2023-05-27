@@ -1,6 +1,5 @@
-// user_id get from Authentification-Authorization external service
 // шардирование не используется, т.к. потеряются преимущества графовой БД
-// репликация master-slave один к одному
+// синхронная репликация один к одному вида master-slave
 
 Table relationships {
   source_user_id uuid
@@ -9,12 +8,7 @@ Table relationships {
   created_at timestamp
 }
 
-enum relationships_type {
-  follow
-  friend
-  relative
-  couple
-}
-
 // Ref: user_id < relationships.source_user_id // one-to-many
 // Ref: user_id < relationships.target_user_id // one-to-many
+// Note: enum relationships_type { follow, friend, relative, couple }
+// Note: user_id get from Authentification-Authorization external service
