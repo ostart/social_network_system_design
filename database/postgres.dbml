@@ -1,0 +1,68 @@
+// шардирование по user_id
+// репликация каждого шарда вида master - 1 slave sync - 2 slaves async, для быстрого выбора замены master в случае критических проблем
+
+Table posts {
+  id bigint [primary key]
+  title varchar
+  content text
+  user_id uuid
+  tags uuid[]
+  status posts_status
+  created_at timestamp
+  modifier_id uuid
+  modified_at timestamp
+}
+
+Table tags {
+  id uuid
+  value varchar
+}
+
+Table post_comments {
+  id bigint [primary key]
+  parent_id bigint [null]
+  post_id bigint
+  user_id uuid
+  text text
+  created_at timestamp
+  modified_at timestamp
+  likes int
+  dislikes int
+}
+
+Table chats {
+  id uuid [primary key]
+  title varchar
+  description text
+}
+
+Table chats_to_users {
+  chat_id uuid
+  user_id uuid
+}
+
+Table messages {
+  id bigint [primary key]
+  from uuid
+  to uuid
+  chat_id uuid [null]
+  type channel
+  created_at timestamp
+  delivered bit
+  delivered_at timestamp
+}
+
+// Ref: posts.user_id > user_id // many-to-one
+// Ref: posts.modifier_id > user_id // many-to-one
+// Ref: redis.dbml:post_stats.post_id - posts.id // one-to-one
+// Ref: post_comments.id < post_comments.id // one-to-many
+// Ref: post_comments.post_id > posts.id // many-to-one
+// Ref: post_comments.user_id > user_id // many-to-one
+// Ref: user_id < messages.from // one-to-many
+// Ref: user_id < messages.to // one-to-many
+// Ref: chats.id < messages.chat_id // one-to-many
+// Ref: chats_to_users.chat_id > chats.id // many-to-one
+// Ref: chats_to_users.user_id > user_id // many-to-one
+// Note: enum posts_status { created, published, hidden }
+// Note: enum channel { user, chat }
+// Note: user_id get from Authentification-Authorization external service
