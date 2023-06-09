@@ -1,0 +1,33 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(user, "User")
+Container(geoDns, "Geo DNS", "Cloudflare", "GeoDNS + CDN")
+Container(loadBalancer, "Load Balancer + API Gateway", "Nginx", "Uses round robin")
+ContainerQueue(messageQueue, "Events queue", "Kafka", "Очередь сообщений для событий")
+
+System_Boundary(coreSystem, "Core system") {
+    Container(postService, "Post Service", "Управление постами пользователя", $tags="webApp")
+    ContainerDb(postDatabase, "Post database", "Mongo реплики", "Хранение постов пользователя",  $tags="db")
+    Container(timelineService, "Timeline Service", "Управление кешем ленты новостей пользователей", $tags="webApp")
+    ContainerDb(timelineDatabase, "Timeline database", "Tarantool шардированный по id пользователя", "Хранение кешев лент новостей пользователей",  $tags="db")
+}
+Container(relationsSystem, "Relations system", "Software system", "Создание и хранение графа зависимостей друзей и подписчиков")
+Container(messagesSystem, "Messages system", "Software system", "Создание и хранение сообщений и чатов")
+Container(analyticsSystem, "Analytics system", "Software system", "Хранение аналитической и статистической информации")
+Container(mediaSystem, "Media system", "Software system", "Хранение медиа-контента")
+
+Rel(user, geoDns, "")
+Rel(geoDns, loadBalancer, "")
+Rel(loadBalancer, relationsSystem, "Добавление и удаление друзей и подписчиков")
+Rel(loadBalancer, coreSystem, "Создание постов и комментариев")
+Rel(loadBalancer, analyticsSystem, "Лайки, дизлайки, статистика просмотров")
+Rel(loadBalancer, messagesSystem, "Сообщения и чаты")
+Rel(loadBalancer, mediaSystem, "Фото, видео, звук")
+Rel(relationsSystem, messageQueue, "")
+Rel(messagesSystem, messageQueue, "")
+Rel(postService, postDatabase, "")
+Rel(postService, messageQueue, "")
+Rel(timelineService, timelineDatabase, "")
+Rel(timelineService, messageQueue, "")
+@enduml

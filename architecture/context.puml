@@ -1,0 +1,16 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(user, "User")
+Container(relationsSystem, "Relations system", "Software system", "Создание и хранение графа зависимостей друзей и подписчиков")
+Container(coreSystem, "Core system", "Software system", "Создание и хранение постов и комментариев")
+Container(analyticsSystem, "Analytics system", "Software system", "Хранение аналитической и статистической информации")
+Container(messagesSystem, "Messages system", "Software system", "Создание и хранение сообщений и чатов")
+Container(mediaSystem, "Media system", "Software system", "Хранение медиа-контента")
+
+Rel(user, relationsSystem, "Добавление и удаление друзей и подписчиков")
+Rel(user, coreSystem, "Создание постов и комментариев")
+Rel(user, analyticsSystem, "Лайки, дизлайки, статистика просмотров")
+Rel(user, messagesSystem, "Сообщения и чаты")
+Rel(user, mediaSystem, "Фото, видео, звук")
+@enduml
