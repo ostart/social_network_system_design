@@ -13,16 +13,12 @@ System_Boundary(messagesSystem, "Messages system") {
     ContainerDb(messagesDatabase, "Messages database", "Postgres", "Хранение сообщений и чатов пользователей",  $tags="db")
     Container(notificationService, "External notification Service", "Внешняя служба уведомлений", $tags="webApp")
 }
-Container(analyticsSystem, "Analytics system", "Software system", "Хранение аналитической и статистической информации")
-Container(mediaSystem, "Media system", "Software system", "Хранение медиа-контента")
 
 Rel(user, geoDns, "")
 Rel(geoDns, loadBalancer, "")
 Rel(loadBalancer, relationsSystem, "Добавление и удаление друзей и подписчиков")
 Rel(loadBalancer, coreSystem, "Создание постов и комментариев")
-Rel(loadBalancer, analyticsSystem, "Лайки, дизлайки, статистика просмотров")
 Rel(loadBalancer, messagesSystem, "Сообщения и чаты")
-Rel(loadBalancer, mediaSystem, "Фото, видео, звук")
 Rel(relationsSystem, messageQueue, "")
 Rel(coreSystem, messageQueue, "")
 Rel(messagesService, messageQueue, "")

@@ -4,12 +4,7 @@
 Person(user, "User")
 Container(geoDns, "Geo DNS", "Cloudflare", "GeoDNS + CDN")
 Container(loadBalancer, "Load Balancer + API Gateway", "Nginx", "Uses round robin")
-ContainerQueue(messageQueue, "Events queue", "Kafka", "Очередь сообщений для событий")
 
-Container(relationsSystem, "Relations system", "Software system", "Создание и хранение графа зависимостей друзей и подписчиков")
-Container(coreSystem, "Core system", "Software system", "Создание и хранение постов и комментариев")
-Container(messagesSystem, "Messages system", "Software system", "Создание и хранение сообщений и чатов")
-Container(analyticsSystem, "Analytics system", "Software system", "Хранение аналитической и статистической информации")
 System_Boundary(mediaSystem, "Media system") {
     Container(mediaService, "Media Service", "Управление медиа-контентом пользователей", $tags="webApp")
     ContainerDb(mediaDatabase, "Media database", "S3 облачная БД", "Хранение медиа-контента пользователей",  $tags="db")
@@ -17,13 +12,6 @@ System_Boundary(mediaSystem, "Media system") {
 
 Rel(user, geoDns, "")
 Rel(geoDns, loadBalancer, "")
-Rel(loadBalancer, relationsSystem, "Добавление и удаление друзей и подписчиков")
-Rel(loadBalancer, coreSystem, "Создание постов и комментариев")
-Rel(loadBalancer, analyticsSystem, "Лайки, дизлайки, статистика просмотров")
-Rel(loadBalancer, messagesSystem, "Сообщения и чаты")
 Rel(loadBalancer, mediaSystem, "Фото, видео, звук")
-Rel(relationsSystem, messageQueue, "")
-Rel(coreSystem, messageQueue, "")
-Rel(messagesSystem, messageQueue, "")
 Rel(mediaService, mediaDatabase, "")
 @enduml

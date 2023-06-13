@@ -14,16 +14,12 @@ System_Boundary(coreSystem, "Core system") {
 }
 Container(relationsSystem, "Relations system", "Software system", "Создание и хранение графа зависимостей друзей и подписчиков")
 Container(messagesSystem, "Messages system", "Software system", "Создание и хранение сообщений и чатов")
-Container(analyticsSystem, "Analytics system", "Software system", "Хранение аналитической и статистической информации")
-Container(mediaSystem, "Media system", "Software system", "Хранение медиа-контента")
 
 Rel(user, geoDns, "")
 Rel(geoDns, loadBalancer, "")
 Rel(loadBalancer, relationsSystem, "Добавление и удаление друзей и подписчиков")
 Rel(loadBalancer, coreSystem, "Создание постов и комментариев")
-Rel(loadBalancer, analyticsSystem, "Лайки, дизлайки, статистика просмотров")
 Rel(loadBalancer, messagesSystem, "Сообщения и чаты")
-Rel(loadBalancer, mediaSystem, "Фото, видео, звук")
 Rel(relationsSystem, messageQueue, "")
 Rel(messagesSystem, messageQueue, "")
 Rel(postService, postDatabase, "")
